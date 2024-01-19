@@ -4,13 +4,13 @@ RSpec.describe RecipesController, type: :controller do
   include Devise::Test::ControllerHelpers
 
   before do
-    @user = User.create!(name: 'Ye Min', email: 'yemin@hotmail.com', password: 'StrongPassword')
+    @user = User.create!(name: 'Ivonne ', email: 'ivonnebenites2015@gmail.com', password: 'StrongPassword')
     @recipe = Recipe.create!(
       user: @user,
-      name: 'myanmar curry',
+      name: 'japanese curry',
       preparation_time: '30 minutes',
       cooking_time: '1 hour',
-      description: 'Delicious myanmar curry recipe'
+      description: 'Delicious japanese curry recipe'
     )
     sign_in @user
   end
@@ -57,8 +57,8 @@ RSpec.describe RecipesController, type: :controller do
 
       it 'redirects to the recipes index page after creation' do
         post :create,
-             params: { recipe: { name: 'Myanmar curry', preparation_time: '45 minutes', cooking_time: '2 hours',
-                                 description: 'Tasty myanmar dish recipe' } }
+             params: { recipe: { name: 'japanese curry', preparation_time: '45 minutes', cooking_time: '2 hours',
+                                 description: 'Tasty japanese curry dish recipe' } }
         expect(response).to redirect_to(recipes_path)
       end
     end
@@ -79,13 +79,13 @@ RSpec.describe RecipesController, type: :controller do
 
   describe 'update' do
     it 'updates the recipe' do
-      patch :update, params: { id: @recipe.id, recipe: { name: 'Updated beef Curry' } }
+      patch :update, params: { id: @recipe.id, recipe: { name: 'Updated korean Curry' } }
       @recipe.reload
-      expect(@recipe.name).to eq('Updated beef Curry')
+      expect(@recipe.name).to eq('Updated korean Curry')
     end
 
     it 'redirects to the updated recipe' do
-      patch :update, params: { id: @recipe.id, recipe: { name: 'Updated beef Curry' } }
+      patch :update, params: { id: @recipe.id, recipe: { name: 'Updated korean Curry' } }
       expect(response).to redirect_to(@recipe)
     end
   end
