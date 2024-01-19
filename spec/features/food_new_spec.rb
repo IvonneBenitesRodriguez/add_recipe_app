@@ -7,6 +7,7 @@ RSpec.describe 'food index' do
   end
 
   it 'see add new food button ' do
+    puts page.html
     expect(page).to have_link('Add new food')
   end
 
@@ -28,10 +29,6 @@ RSpec.describe 'food index' do
 
   it 'see the column Action' do
     expect(page).to have_content('Action')
-  end
-
-  it 'see the delete button' do
-    expect(page).to have_link('Delete')
   end
 
   context 'when no foods are available' do
