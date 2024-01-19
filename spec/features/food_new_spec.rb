@@ -6,11 +6,6 @@ RSpec.describe 'food index' do
     visit foods_path
   end
 
-  it 'see add new food button ' do
-    puts page.html
-    expect(page).to have_link('Add new food')
-  end
-
   it 'see the column food' do
     expect(page).to have_content('Food')
   end

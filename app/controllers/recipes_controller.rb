@@ -4,23 +4,25 @@ class RecipesController < ApplicationController
   before_action :authorize_user!, only: %i[edit update destroy]
 
   def index
-    @recipes = current_user.recipes.order(created_at: :desc)
+    @recipes = current_user&.recipes&.order(created_at: :desc) || []
   end
 
   def show; end
 
   def new
-    @recipe = current_user.recipes.new
+    @recipe = Recipe.new
+    @recipe_food = @recipe.recipe_foods.build
   end
 
   def edit; end
 
   def create
-    @recipe = current_user.recipes.new(recipe_params)
+    @recipe = current_user.recipes.build(recipe_params)
 
     if @recipe.save
       redirect_to recipes_path, notice: 'Recipe was successfully created.'
     else
+      puts "Validation errors: #{@recipe.errors}"
       render :new
     end
   end
@@ -115,7 +117,8 @@ class RecipesController < ApplicationController
   end
 
   def recipe_params
-    params.require(:recipe).permit(:name, :preparation_time, :cooking_time, :description, :public)
+    params.require(:recipe).permit(:name, :title, :description, :preparation_time, :cooking_time, :public,
+                                   recipe_foods_attributes: %i[food_id quantity])
   end
 
   def recipe_food_params
