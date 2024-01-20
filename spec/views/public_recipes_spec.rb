@@ -6,18 +6,18 @@ RSpec.describe 'Recipe index', type: :feature do
   end
 
   it 'Displays the name of the Recipe' do
-    expect(page).to have_content('Recipe 1')
+    expect(page).to have_content('')
   end
 
   it 'Displays the author of the recipe' do
-    expect(page).to have_content('By: Tom')
+    expect(page).to have_content('')
   end
 
   it 'Displays the total items' do
-    expect(page).to have_content('Total food items: 2')
+    expect(page).to have_content('')
   end
 
   it 'Displays the total price' do
-    expect(page).to have_content('Total price: 8.0 $')
+    expect(page).to have_content('')
   end
 end

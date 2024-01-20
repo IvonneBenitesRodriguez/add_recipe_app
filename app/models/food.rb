@@ -7,6 +7,6 @@ class Food < ApplicationRecord
   validates :price, numericality: { greater_than_or_equal_to: 0 }
 
   def total_quantity_recipes
-    recipe_foods.map(&:quantity).sum
+    recipe_foods.map { |recipe_food| recipe_food.quantity.to_i }.sum
   end
 end

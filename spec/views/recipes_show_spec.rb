@@ -2,10 +2,9 @@ require 'rails_helper'
 
 RSpec.describe 'Recipe show', type: :feature do
   before :each do
-    visit new_user_session_path
-    fill_in 'Email', with: 'tom@gmail.com'
-    fill_in 'Password', with: '123456'
-    click_button 'Log in'
+    user = FactoryBot.create(:user, email: 'tom@gmail.com', password: '123456')
+    FactoryBot.create(:recipe, id: 1, user:)
+    login_as(user, scope: :user)
     visit recipe_path(1)
   end
 

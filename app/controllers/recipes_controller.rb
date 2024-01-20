@@ -18,7 +18,14 @@ class RecipesController < ApplicationController
 
   def index
     @current_user = current_user
-    @recipes = @current_user.recipes
+
+    if @current_user
+      @recipes = @current_user.recipes
+    else
+      # Handle the case where the user is not logged in
+      flash[:alert] = 'Please log in to view your recipes.'
+      redirect_to new_user_session_path
+    end
   end
 
   def show
