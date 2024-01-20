@@ -1,16 +1,25 @@
-<h1 class='text-center mt-5'>Shopping List</h1>
-
-<div class='container col-6 mt-4'>
-<% if @shopping_list_items.any? %>
-  <ul>
-    <% @shopping_list_items.each do |food| %>
-      <li class='text-center'><%= food.name %> - <%= number_to_currency(food.price) %></li>
-    <% end %>
-  </ul>
-
-  <p>Total Items: <%= @shopping_list_items.size %></p>
-  <p>Total Price: <%= number_to_currency(@shopping_list_items.sum(&:price)) %></p>
-<% else %>
-  <p>No items found in the shopping list.</p>
-<% end %>
+<h2> shopping list </h2>
+<div>
+<p>Amount of foods items to buy :  <%= @foods.length %> </p>
+<p>Total value of foods needed : <%= @total_price %> $ </p>
+</div>
+<div class="table-responsive mt-4">
+  <table class="table table-light table-bordered mt-4">
+    <thead>
+      <tr>
+        <th scope="col">Food</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @foods.each do | ingredient | %>
+       <tr>
+        <th scope="row"> <%= ingredient.name %> </th>
+        <td><%= ingredient.total_quantity_recipes %> <%= ingredient.measurement_unit %></td>
+        <td> <%= ingredient.price * ingredient.total_quantity_recipes %></td>
+       </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

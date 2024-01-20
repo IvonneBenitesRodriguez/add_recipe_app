@@ -1,23 +1,19 @@
 Rails.application.routes.draw do
-
-  devise_for :users, controllers: {
-    registrations: 'users/registrations'
-  }
-
-  resources :recipes do
-    put 'toggle_public', on: :member
-    get 'public_recipes', on: :collection
-    post 'generate_shopping_list', on: :member
-
-    resources :recipe_foods
+  devise_for :users
+  resources :recipes, only: [:new, :create, :index, :show, :destroy, :put] do
+    resources :recipe_foods, only: [:new, :create, :destroy, :edit, :update]
   end
+  resources :foods, only: [:index, :new, :create, :destroy]
+  get 'public_recipes', to: 'recipes#public_recipes'
 
-  resources :foods
-  resources :shopping_list
+  get 'shopping_list', to: 'shopping_list#index'
 
-  resources :users do
-    get 'shopping_list', on: :member
-  end
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  root 'foods#index'
+  match 'recipes/:recipe_id' => 'recipes#toggle_public', as: :toggle_public, via: :patch
+
+  # Defines the root path route ("/")
+  # root "articles#index"
+
+  root to: "home#index"
 end

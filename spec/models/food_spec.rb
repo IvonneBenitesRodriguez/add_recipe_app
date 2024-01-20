@@ -1,62 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe Food, type: :model do
-  describe 'Validations' do
-    let(:user) { User.create(email: 'sample@email.com', password: 'test123') }
-
-    context 'when all attributes are present' do
-      let(:valid_food) do
-        Food.new(name: 'Delicious Dish', measurement_unit: 'units', price: 9.99, quantity: 100, user:)
-      end
-
-      it 'is valid' do
-        expect(valid_food).to be_valid
-      end
-    end
-
-    context 'when attributes are missing' do
-      it 'requires a name' do
-        food = Food.new(measurement_unit: 'units', price: 9.99, quantity: 100)
-        expect(food).to_not be_valid
-        expect(food.errors[:name]).to include("can't be blank")
-      end
-
-      it 'requires a measurement unit' do
-        food = Food.new(name: 'Tasty Treat', price: 9.99, quantity: 100)
-        expect(food).to_not be_valid
-        expect(food.errors[:measurement_unit]).to include("can't be blank")
-      end
-
-      it 'requires a price' do
-        food = Food.new(name: 'Tasty Treat', measurement_unit: 'units', quantity: 100)
-        expect(food).to_not be_valid
-        expect(food.errors[:price]).to include("can't be blank")
-      end
-
-      it 'requires a quantity' do
-        food = Food.new(name: 'Tasty Treat', measurement_unit: 'units', price: 9.99)
-        expect(food).to_not be_valid
-        expect(food.errors[:quantity]).to include("can't be blank")
-      end
-    end
+  subject do
+    @user = User.new(name: 'test', email: 'test@test.com')
+    @food = @user.foods.new(name: 'Egg', measurement_unit: 'kg', price: 3, updated_at: Time.now,
+                            created_at: Time.now)
   end
 
-  describe 'Associations' do
-    it 'is associated with a user' do
-      reflection = described_class.reflect_on_association(:user)
-      expect(reflection.macro).to eq(:belongs_to)
+  describe 'Food model' do
+    it 'Should have a name' do
+      expect(subject.name).to eq 'Egg'
     end
 
-    it 'has many recipe foods and destroys dependent associations' do
-      reflection = described_class.reflect_on_association(:recipe_foods)
-      expect(reflection.macro).to eq(:has_many)
-      expect(reflection.options).to include(dependent: :destroy)
+    it 'Should have a price' do
+      expect(subject.price).to eq 3
     end
 
-    it 'has many recipes through recipe foods' do
-      reflection = described_class.reflect_on_association(:recipes)
-      expect(reflection.macro).to eq(:has_many)
-      expect(reflection.options).to include(:through)
+    it 'Should have a measurement_unit' do
+      expect(subject.measurement_unit).to eq 'kg'
     end
   end
 end

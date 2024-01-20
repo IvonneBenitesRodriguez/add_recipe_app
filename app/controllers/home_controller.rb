@@ -1,3 +1,5 @@
 class HomeController < ApplicationController
-  def welcome; end
+  def index
+    @current_user = current_user
+  end
 end

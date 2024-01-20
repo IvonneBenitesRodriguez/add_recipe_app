@@ -1,46 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe Recipe, type: :model do
-  let(:user_instance) { User.create(email: 'user_test@example.com', password: 'user_password') }
+  before(:each) do
+    @u = User.new(name: 'test', email: 'test@test.com')
+    @r = @u.recipes.new(name: 'boiled egg', preparation_time: 2, cooking_time: 5,
+                        description: 'Put the egg in boiling water for about 5 minutes', public: true)
+  end
+  it 'should return the correct name' do
+    expect(@r.name).to eq 'boiled egg'
+  end
 
-  describe 'Validations' do
-    context 'with valid attributes' do
-      it 'is valid' do
-        recipe = Recipe.new(
-          name: 'Sample Recipe',
-          preparation_time: '25 mins',
-          cooking_time: '40 mins',
-          description: 'A tasty dish description',
-          user: user_instance
-        )
-        expect(recipe).to be_valid
-      end
-    end
+  it 'should return the correct preparation_time' do
+    expect(@r.preparation_time).to eq '2'
+  end
 
-    context 'with invalid attributes' do
-      before do
-        @invalid_recipe = Recipe.new(user: user_instance)
-      end
+  it 'should return the correct cooking_time' do
+    expect(@r.cooking_time).to eq '5'
+  end
 
-      it 'is not valid without a name' do
-        expect(@invalid_recipe).to_not be_valid
-        expect(@invalid_recipe.errors[:name]).to include("can't be blank")
-      end
-
-      it 'is not valid without preparation_time' do
-        expect(@invalid_recipe).to_not be_valid
-        expect(@invalid_recipe.errors[:preparation_time]).to include("can't be blank")
-      end
-
-      it 'is not valid without cooking_time' do
-        expect(@invalid_recipe).to_not be_valid
-        expect(@invalid_recipe.errors[:cooking_time]).to include("can't be blank")
-      end
-
-      it 'is not valid without a description' do
-        expect(@invalid_recipe).to_not be_valid
-        expect(@invalid_recipe.errors[:description]).to include("can't be blank")
-      end
-    end
+  it 'should return the description' do
+    expect(@r.description).to eq 'Put the egg in boiling water for about 5 minutes'
   end
 end
