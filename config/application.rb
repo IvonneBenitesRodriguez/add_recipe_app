@@ -23,6 +23,8 @@ module RecipeApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.paths["app/views"] << Rails.root.join("app/views")
   end
 end
 

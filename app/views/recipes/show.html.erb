@@ -9,11 +9,58 @@
       <%= link_to "Add Ingredient", new_recipe_recipe_food_path(@recipe), class: "btn btn-success" %>
     <% end %>
   </div>
+
+  <!-- Display the shopping list -->
+  <div class="container col-6">
+    <% if @user.shopping_list.present? %>
+      <h2>Shopping List</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @user.shopping_list.each do |food| %>
+            <tr>
+              <td><%= food.name %></td>
+              <td><%= food.quantity_needed %></td>
+              <td><%= food.price_per_unit %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No items in the shopping list.</p>
+    <% end %>
+  </div>
+
+  <!-- Display the recipe foods -->
   <div class='container col-6'>
     <% if @recipe.recipe_foods.any? %>
-      <%= render partial: 'recipe_food_table' %>
+      <h2>Recipe Foods</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Food</th>
+            <th>Quantity</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @recipe.recipe_foods.each do |recipe_food| %>
+            <tr>
+              <td><%= recipe_food.food.name %></td>
+              <td><%= recipe_food.quantity %></td>
+              <td><%= recipe_food.food.price %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     <% else %>
-      <p>There are no foods for this recipe.</p>
+      <p>No items in the recipe foods list.</p>
     <% end %>
   </div>
 
@@ -21,6 +68,5 @@
     <%= link_to "Edit this recipe", edit_recipe_path(@recipe), class: "btn btn-primary" %>
     <%= link_to "Back to recipes", recipes_path, class: "btn btn-secondary" %>
     <%= button_to "Delete this recipe", @recipe, method: :delete, class: "btn btn-danger" %>
-  </div>
   </div>
 </section>

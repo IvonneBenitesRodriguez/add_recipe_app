@@ -7,7 +7,10 @@ class RecipesController < ApplicationController
     @recipes = current_user&.recipes&.order(created_at: :desc) || []
   end
 
-  def show; end
+  def show
+    @recipe = Recipe.find(params[:id])
+    @user = @recipe.user
+  end
 
   def new
     @recipe = Recipe.new
@@ -48,8 +51,13 @@ class RecipesController < ApplicationController
     @general_food_list = @user.foods
     @missing_food_items = []
 
-    @recipe.foods.each do |food|
-      @missing_food_items << food unless @general_food_list.include?(food)
+    @recipe.recipe_foods.each do |recipe_food|
+      next if @general_food_list.include?(recipe_food.food)
+
+      food_item = recipe_food.food.dup
+      food_item.quantity_needed = recipe_food.quantity
+      food_item.price_per_unit = recipe_food.food.price # Assuming price is stored in the Food model
+      @missing_food_items << food_item
     end
 
     @user.shopping_list = @missing_food_items
